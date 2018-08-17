@@ -1,0 +1,22 @@
+{
+  "name": "excel-to-db",
+  "version": "1.0.0",
+  "description": "",
+  "main": "hkdoctor.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.288.0",
+    "elasticsearch": "^15.1.1",
+    "jquery": "^3.3.1",
+    "log4js": "^3.0.4",
+    "mysql": "^2.16.0",
+    "mysql-model": "0.0.3",
+    "node-xlsx": "^0.12.1",
+    "progress": "^2.0.0",
+    "slug": "^0.9.1"
+  }
+}

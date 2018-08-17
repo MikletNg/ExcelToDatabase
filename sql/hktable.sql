@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS `hktable` (
+`id` INT(6) unsigned NOT NULL AUTO_INCREMENT,
+`hospital_id` INT(6) unsigned NOT NULL,
+`surgery_id` INT(6) unsigned NOT NULL,
+`options` VARCHAR(255),
+`description` VARCHAR(255) NOT NULL,
+`annual_no_discharges` VARCHAR(10),
+`avg_length_stay` VARCHAR(30),
+`statistics` VARCHAR(255),
+`ops_charges` VARCHAR(10),
+`other_charges` VARCHAR(10),
+`anaesthetist_fee` VARCHAR(10),
+`doctor_fee` VARCHAR(10),
+`total_charges` VARCHAR(10),
+`links` VARCHAR(255) NOT NULL,
+`date` VARCHAR(255) NOT NULL,
+PRIMARY KEY(`id`),
+FOREIGN KEY (`hospital_id`) REFERENCES `hospitals`(`id`),
+FOREIGN KEY (`surgery_id`) REFERENCES `surgeries`(`id`)
+);

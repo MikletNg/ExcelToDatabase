@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS `surgeries` (
+`id` INT(6) unsigned NOT NULL AUTO_INCREMENT,
+`slug` VARCHAR(255) NOT NULL UNIQUE,
+`surgery` VARCHAR(255) NOT NULL UNIQUE,
+`cn_surgery` VARCHAR(255) NOT NULL,
+`type` VARCHAR(255) NOT NULL,
+`cn_type` VARCHAR(255) NOT NULL,
+`parent_part` VARCHAR(255) NOT NULL,
+`part` VARCHAR(255) NOT NULL,
+PRIMARY KEY (`id`),
+FULLTEXT (`slug`,`surgery`, `type`)
+);
