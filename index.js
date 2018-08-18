@@ -1,23 +1,56 @@
-/* global AWS, config, logger, fs, conn */
+/* global config, logger, fs, conn, Sequelize, sequelize */
 global.fs = require("fs");
 global.config = require("./config/config.js");
-let fun = require("./fun.js");
-
-let mysql = require('mysql');
-global.conn = mysql.createConnection(config.mysql);
-
-global.AWS = require("aws-sdk");
-AWS.config.update({ region: config.region }); // select deploy region
-//AWS.config.credentials = new AWS.SharedIniFileCredentials({ profile: config.profile }); // ~/.aws/credentials
 
 let log4js = require('log4js');
 global.logger = log4js.getLogger();
 logger.level = 'debug';
 
-// let surgeries = require("./query/surgeries.js")();
-// let hospitals = require("./query/hospitals.js")();
-// let doctors = require("./query/doctors.js")();
+global.Sequelize = require('sequelize');
+global.sequelize = new Sequelize(config.mysql.database, config.mysql.user, config.mysql.password, {
+    host: config.mysql.host,
+    dialect: 'mysql',
+    logging: false,
+    pool: { max: 5, min: 0, idle: 20000, acquire: 20000 } // !!!IMPORTANT !!! //
+});
 
-require("./query/hk_table.js")()
-    .then(data => fun.rdsWrite('hk_table', data))
-    .then(() => { conn.end() });
+let hospitals = require("./query/hospitals.js")();
+let surgeries = require("./query/surgeries.js")();
+let doctors = require("./query/doctors.js")();
+let hk_table = require("./query/hk_table.js")();
+let sg_table = require("./query/sg_table.js")();
+
+const Hospital = require("./model/hospital.js")();
+const Surgery = require("./model/surgery.js")();
+const Doctor = require("./model/doctor.js")();
+const HKTable = require("./model/hk_table.js")();
+const SGTable = require("./model/sg_table.js")();
+
+
+sequelize.sync()
+    .then(() => {
+        for (let row in hospitals) {
+            Hospital.create(hospitals[row]);
+        }
+    })
+    .then(() => {
+        for (let row in surgeries) {
+            Surgery.create(surgeries[row]);
+        }
+    })
+    .then(() => {
+        for (let row in doctors) {
+            Doctor.create(doctors[row]);
+        }
+    })
+    .then(() => {
+        for (let row in hk_table) {
+            HKTable.create(hk_table[row]);
+        }
+    })
+    .then(() => {
+        for (let row in sg_table) {
+            SGTable.create(sg_table[row]);
+        }
+    })
+    .then(() => { logger.info("All insert completed!") });
