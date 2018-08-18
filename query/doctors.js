@@ -6,10 +6,11 @@ module.exports = () => {
     try {
         // create valid key name with orders
         const valid = ['name', 'cn_name', 'links', 'specialty_map', 'specialty', 'gender', 'qualifications', 'address', 'district', 'type_of_practise', 'open_hours', 'a&e_service', 'fee', 'language', 'service_avalible', 'service_outside', 'med_proc_ops', 'hospitals', 'phone', 'fax', 'pager', 'email', 'cn_specialty', 'dummy', 'cn_qualifications', 'cn_address', 'cn_district', 'cn_type_of_practise', 'dummy', 'dummy', 'dummy', 'cn_language', 'cn_service_avalible', 'cn_service_outside', 'cn_hospitals', 'dummy', 'dummy', 'dummy', 'dummy'];
-        var json = [];
-        var data = xlsx.parse('../documents/DATA2_DOCTORS/hkdoctor.xlsx');
+        let json = [];
+        let data = xlsx.parse('../documents/DATA2_DOCTORS/hkdoctor.xlsx');
         // Only have one sheet, so 0 index
         data = data[0].data;
+        fs.writeFileSync(`./json/doctors_raw.json`, JSON.stringify(data, null, 4));
         // Append row A to other row as key
         for (let row in data) {
             let n = {};
@@ -25,7 +26,9 @@ module.exports = () => {
                     case 'service_outside':
                     case 'cn_service_outside':
                     case 'med_proc_ops':
-                        n[valid[item]] = data[row][item].replace(/(?:\r\n\t\r\n|\r\n|\r|\n|\t)/g, ',');
+                    case 'hospitals':
+                    case 'cn_hospitals':
+                        n[valid[item]] = data[row][item].replace(/(?:\r\n\t\r\n|\r\n|\r|\n|\t)/g, ',').trim();
                         break;
                     case 'a&e_service':
                         n[valid[item]] = data[row][item] === "Y" ? true : false;
@@ -40,18 +43,10 @@ module.exports = () => {
                         }
                         n[valid[item]] = x.join(', ');
                         break;
-                    case 'hospitals':
-                    case 'cn_hospitals':
-                        n[valid[item]] = data[row][item].replace(/(?:\r\n\t\r\n|\r\n|\r|\n|\t)/g, ',').split(/(?:;|，|；)|\,\s?(?![^\(]*\))/g);
-                        // var a = data[row][item].replace(/(?:\r\n\t\r\n|\r\n|\r|\n|\t)/g, ',').split(/(?:;|，|；)|\,\s?(?![^\(]*\))/g);
-                        // for (let b in a) {
-                        //     if (valid[item] == 'hospitals') {
-                        //         hospitals.eng[a[b]] = a[b].trim();
-                        //     }
-                        //     else {
-                        //         hospitals.cn[a[b]] = a[b].trim();
-                        //     }
-                        // }
+                        // case 'hospitals':
+                        // case 'cn_hospitals':
+                        // n[valid[item]] = data[row][item].replace(/(?:\r\n\t\r\n|\r\n|\r|\n|\t)/g, ',').split(/(?:;|，|；)|\,\s?(?![^\(]*\))/g);
+                        // let a = data[row][item].replace(/(?:\r\n\t\r\n|\r\n|\r|\n|\t)/g, ',').split(/(?:;|，|；)|\,\s?(?![^\(]*\))/g);
                     default:
                         n[valid[item]] = data[row][item];
                         break;

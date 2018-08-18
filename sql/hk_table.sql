@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `hktable` (
+CREATE TABLE IF NOT EXISTS `hk_table` (
 `id` INT(6) unsigned NOT NULL AUTO_INCREMENT,
 `hospital_id` INT(6) unsigned NOT NULL,
 `surgery_id` INT(6) unsigned NOT NULL,

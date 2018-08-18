@@ -1,12 +1,12 @@
 /* global AWS, config, logger, fs, conn */
-var ProgressBar = require('progress');
-var cb = (err, result, fields) => {
+const ProgressBar = require('progress');
+let cb = (err, result, fields) => {
     if (err) throw err;
 };
 
 module.exports = {
     ddbWrite: (info) => {
-        var ddb = new AWS.DynamoDB({ apiVersion: '2012-10-08' });
+        let ddb = new AWS.DynamoDB({ apiVersion: '2012-10-08' });
         const tableName = info.config.TableName;
         logger.info(`Check table: ${tableName}`);
         ddb.describeTable({ TableName: tableName }).promise()
@@ -21,10 +21,10 @@ module.exports = {
                 });
                 return { isExist: false };
             }).then((cb) => {
-                var documentClient = new AWS.DynamoDB.DocumentClient();
-                var params = { RequestItems: {} };
+                let documentClient = new AWS.DynamoDB.DocumentClient();
+                let params = { RequestItems: {} };
 
-                var start = () => {
+                let start = () => {
                     logger.info("Start write data to dynamoDB.");
                     for (let row in info.data) {
                         params = {
@@ -37,7 +37,7 @@ module.exports = {
                         });
                     }
                 };
-                // var start = () => {
+                // let start = () => {
                 //     for (let row in info.data) {
                 //         item = {
                 //             PutRequest: {
@@ -66,7 +66,7 @@ module.exports = {
     },
     rdsWrite: async(tableName, data) => {
         try {
-            var sql = fs.readFileSync(`./sql/${tableName}.sql`).toString();
+            let sql = fs.readFileSync(`./sql/${tableName}.sql`).toString();
             conn.query("DROP TABLE IF EXISTS `" + tableName + "` CASCADE;", cb);
             conn.query(sql, cb);
             logger.info(`Now insert data into Table:${tableName}. It may take a while.`);

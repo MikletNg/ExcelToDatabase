@@ -7,11 +7,11 @@ module.exports = () => {
         // create valid key name with orders
         const public_h_valid = ['dummy', 'cluster', 'name', 'a&e_service', 'address', 'cn_cluster', 'cn_name', 'dummy', 'cn_address', 'dummy', 'dummy', 'dummy', 'dummy', 'dummy', 'dummy', 'dummy'];
         const private_h_valid = ['name', 'address', 'dummy', 'dummy', 'dummy', 'dummy', 'cn_name', 'cn_address', 'dummy', 'dummy', 'dummy', 'dummy', ];
-        var json = [],
+        let json = [],
             private_h = [];
 
-        var public_h_raw = xlsx.parse('../documents/public_hospitals.xlsx');
-        var public_h = public_h_raw[0].data;
+        let public_h_raw = xlsx.parse('../documents/public_hospitals.xlsx');
+        let public_h = public_h_raw[0].data;
         for (let row in public_h) {
             let n = {};
             for (let item in public_h[row]) {
@@ -31,9 +31,9 @@ module.exports = () => {
             }
         }
 
-        var private_h_raw = xlsx.parse('../documents/private_hospitals.xlsx');
-        var private_h_cn = private_h_raw[0].data;
-        var private_h_eng = private_h_raw[1].data;
+        let private_h_raw = xlsx.parse('../documents/private_hospitals.xlsx');
+        let private_h_cn = private_h_raw[0].data;
+        let private_h_eng = private_h_raw[1].data;
         for (let row in private_h_cn) {
             private_h.push(private_h_cn[row].concat(private_h_eng[row]));
             let n = {};
@@ -61,7 +61,7 @@ module.exports = () => {
         //fs.writeFileSync(`./json/private.json`, JSON.stringify(private_h, null, 4));
         //fs.writeFileSync(`./json/public.json`, JSON.stringify(public_h, null, 4));
         fs.writeFileSync(`./json/hospitals.json`, JSON.stringify(json, null, 4));
-        //logger.info(`${Object.keys(json).length} rows of datas has been recorded.`);
+        logger.info(`${Object.keys(json).length} rows of datas has been recorded.`);
         return json;
     }
     catch (err) {

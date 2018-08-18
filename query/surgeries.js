@@ -6,8 +6,8 @@ module.exports = () => {
     try {
         // create valid key name with orders
         const valid = ['surgery', 'type', 'cn_surgery', 'cn_type', 'parent_part', 'part'];
-        var json = [];
-        var data = xlsx.parse('../documents/DATA3_CLASSIFICATION_CODE/2c_general info.xlsx');
+        let json = [];
+        let data = xlsx.parse('../documents/DATA3_CLASSIFICATION_CODE/2c_general info.xlsx');
         // Only have one sheet, so 0 index
         data = data[0].data;
         //Append row A to other row as key
