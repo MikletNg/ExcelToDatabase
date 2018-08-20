@@ -3,12 +3,11 @@ const xlsx = require('node-xlsx');
 module.exports = () => {
     try {
         // create valid key name with orders
-        const valid = ['hospital', 'type', 'surgery', 'options', 'description', 'annual_no_discharges', 'avg_length_stay', 'statistics', 'ops_charges', 'other_charges', 'anaesthetist_fee', 'doctor_fee', 'total_charges', 'links', 'date', 'dummy', 'dummy'];
+        const valid = ['Hospital', 'Specialty', 'Operation', 'Option', 'OrignalDescription', 'AnnualNumOfDischarges', 'AvgLenOfStay', 'Statistics', 'OpTheatrAndAssoMtrlCharges ', 'OtherHospitalCharges', 'AnaesthetistFees', 'DoctorFees', 'TotalCharges', 'Website', 'Date', 'Commentary', 'Description', 'Note', 'ReferenceNum', 'Dummy1', 'Dummy2', 'Dummy3'];
         let json = [];
         let data = xlsx.parse('../documents/DATA3_CLASSIFICATION_CODE/2b_hk table.xlsx');
         // Only have one sheet, so 0 index
         data = data[0].data;
-        fs.writeFileSync(`./json/hk_table_raw.json`, JSON.stringify(data, null, 4));
         for (let row in data) {
             let n = {};
             for (let item in data[row]) {

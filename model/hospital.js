@@ -7,7 +7,6 @@ module.exports = () => {
             autoIncrement: true,
             primaryKey: true
         },
-        slug: { type: Sequelize.STRING },
         name: { type: Sequelize.STRING },
         cn_name: { type: Sequelize.STRING },
         'a&e_service': { type: Sequelize.BOOLEAN },

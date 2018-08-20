@@ -10,7 +10,6 @@ module.exports = () => {
         let data = xlsx.parse('../documents/DATA2_DOCTORS/hkdoctor.xlsx');
         // Only have one sheet, so 0 index
         data = data[0].data;
-        fs.writeFileSync(`./json/doctors_raw.json`, JSON.stringify(data, null, 4));
         // Append row A to other row as key
         for (let row in data) {
             let n = {};
